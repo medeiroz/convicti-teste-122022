@@ -1,66 +1,156 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Summary
+- [Install WSL](#install-wsl)
+- [Run Application](#run-application)
+- [IDE Open Project](#ide-open-project)
+- [Api Documentation](#api-documentation)
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
 
-## About Laravel
+# Install WSL
+This step needed only for windows
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Configure WSL
+### Open administrator powershell
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Enabled WSL
+```powershell
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Restart your pc
 
-## Learning Laravel
+Upgrade WSL
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+```powershell
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Download and install update
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+[https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi)
 
-## Laravel Sponsors
+Set default wsl to new version
+```powershell
+wsl --set-default-version 2
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Install last ubuntu subsystem version on Microsoft Store
 
-### Premium Partners
+[Click here to install Ubuntu sub system](https://www.microsoft.com/store/productId/9NBLGGH4MSV6)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Set ubuntu to new version
+```powershell
+wsl --set-version Ubuntu 2
+```
 
-## Contributing
+## Install Windows Terminal
+This step needed only for windows
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+[Windows terminal](https://docs.microsoft.com/en-us/windows/terminal/get-started)
 
-## Code of Conduct
+## Open Terminal on Ubuntu
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Configure terminal and alias
+#### Open `.bashrc` file and append alias/export
+```bash
+vim ~/.bashrc
+```
+#### Create Sail alias
+```bash
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias sa='sail artisan'
+```
+#### Show current Branch name
+```bash
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1="\[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w \[\e[91m\]\$(parse_git_branch)\[\033[00m\]\n$ "
+```
+Refresh terminal
 
-## Security Vulnerabilities
+```bash
+source ~/.bashrc
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Make new folder and follow
+```bash
+mkdir ~/code && cd ~/code
+```
 
-## License
+### Clone Project
+```bash
+git clone git@github.com:medeiroz/convicti-test-122022.git
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cd convicti-test-122022
+```
+
+Configure git user
+```bash
+git config user.name "Flavio Medeiros"
+```
+```bash
+git config user.email "smedeiros.flavio@gmail.com"
+```
+
+Copy .env file
+```bash
+cp .env.example .env
+```
+
+Fill variables in .env
+
+
+### Install dependencies
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+# Run Application
+```bash
+sail up -d
+```
+
+### Create APP key
+```
+sail artisan key:generate
+```
+
+### Run migrations and seed
+```bash
+sail artisan migrate --seed
+```
+
+
+# IDE Open Project
+#### VSCODE
+- Open VScode
+- Install Remote - WSL extension
+- Restart vscode
+- File > Open Folder
+- `Ctrl` + `L` or tab on path input
+- Write `\\wsl$` + `Enter`
+- Navigate to Ubuntu > home > YourUserName > code > convicti-test-122022
+- Select Folder
+
+#### PHPSTORM
+- Open PHPStorm
+- File > Open...
+- Write or Select folder
+- Navigate to `\\wsl$` > Ubuntu > home > YourUserName > code > convicti-test-122022
+- Select Folder
+
+
+# API Documentation
+### Generate Documentation
+```bash
+sail artisan scribe:generate
+```
+### Access
+[https://localhost/docs](https://localhost/docs)
