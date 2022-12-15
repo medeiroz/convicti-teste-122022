@@ -153,4 +153,4 @@ sail artisan migrate --seed
 sail artisan scribe:generate
 ```
 ### Access
-[https://localhost/docs](https://localhost/docs)
+[http://localhost/docs](http://localhost/docs)
