@@ -8,11 +8,17 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Unauthenticated;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class RegisterController extends Controller
 {
+    #[Unauthenticated]
+    #[Group('Register / Login')]
+    #[Endpoint("Register", "User Register")]
     public function __invoke(RegisterRequest $request): JsonResponse
     {
         try {

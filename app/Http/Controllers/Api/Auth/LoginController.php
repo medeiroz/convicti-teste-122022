@@ -8,11 +8,17 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Unauthenticated;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class LoginController extends Controller
 {
+    #[Unauthenticated]
+    #[Group('Register / Login')]
+    #[Endpoint("Login", "User Login")]
     public function __invoke(LoginRequest $request): JsonResponse
     {
         try {
