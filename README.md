@@ -3,6 +3,7 @@
 - [Run Application](#run-application)
 - [IDE Open Project](#ide-open-project)
 - [Api Documentation](#api-documentation)
+- [Run Tests](#run-tests)
 
 
 # Install WSL
@@ -154,3 +155,9 @@ sail artisan scribe:generate
 ```
 ### Access
 [http://localhost:8000/docs](http://localhost:8000/docs)
+
+
+# Run Tests
+```bash
+sail composer test
+```
