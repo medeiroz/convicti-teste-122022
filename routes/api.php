@@ -25,5 +25,5 @@ Route::prefix('auth')
     });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('user', UserController::class);
+    Route::get('user', UserController::class)->name('user');
 });
