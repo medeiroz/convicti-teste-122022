@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "maatwebsite/excel": "^3.1",
+        "matanyadaev/laravel-eloquent-spatial": "^2.8",
         "psr/simple-cache": "^2.0",
         "ranium/laravel-seedonce": "^1.4",
         "spatie/laravel-query-builder": "^5.1"

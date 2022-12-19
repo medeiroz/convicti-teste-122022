@@ -16,7 +16,13 @@ return new class extends Migration
         Schema::create('branch_offices', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->point('location');
+            $table->unsignedBigInteger('region_id');
+            $table->unsignedBigInteger('manager_id');
             $table->timestamps();
+
+            $table->foreign('region_id')->references('id')->on('regions');
+            $table->foreign('manager_id')->references('id')->on('users');
         });
     }
 

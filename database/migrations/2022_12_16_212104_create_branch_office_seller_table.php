@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_branch_offices', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
+        Schema::create('branch_office_seller', function (Blueprint $table) {
             $table->unsignedBigInteger('branch_office_id');
+            $table->unsignedBigInteger('seller_id');
 
-            $table->unique(['user_id', 'branch_office_id']);
+            $table->unique(['branch_office_id', 'seller_id',]);
 
-            $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('branch_office_id')->references('id')->on('branch_offices');
+            $table->foreign('seller_id')->references('id')->on('users');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_branch_offices');
+        Schema::dropIfExists('branch_office_seller');
     }
 };

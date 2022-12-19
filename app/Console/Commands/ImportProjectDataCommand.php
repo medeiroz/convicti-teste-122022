@@ -17,8 +17,7 @@ class ImportProjectDataCommand extends Command
         /** @var ImportProjectData $import */
         $import = app(ImportProjectData::class);
 
-        $users = $import->getUsers();
-        dd($users);
+        $import->import();
         return Command::SUCCESS;
     }
 }

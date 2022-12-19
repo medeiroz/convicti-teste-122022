@@ -2,13 +2,9 @@
 
 namespace App\Modules\Import\ImportProjectData;
 
-use App\Modules\Import\ImportProjectData\Enum\RecordEnum;
 use App\Modules\Import\ImportProjectData\Enum\RoleEnum;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\ToCollection;
 use Str;
-use function PHPUnit\Framework\isEmpty;
 
 class ProjectDataMapUsers
 {
@@ -17,8 +13,10 @@ class ProjectDataMapUsers
         $users = collect();
         $recordRole = null;
 
-        $collection->each(function (Collection $row) use ($users, &$recordRole) {
-            if ($row->isEmpty() && !isEmpty($row->first())) {
+        $i = 0;
+
+        $collection->each(function (Collection $row) use ($users, &$recordRole, &$i) {
+            if ($row->isEmpty() || empty($row->first()) ) {
                 return;
             }
 
@@ -38,7 +36,11 @@ class ProjectDataMapUsers
 
     protected function getRecordRole(?string $firstCol): ?RoleEnum
     {
-        $role = $firstCol === 'Unidade' ? 'Gerente' : $firstCol;
+        $role = match($firstCol) {
+            'Nome Diretoria' => 'Diretor',
+            'Unidade' => 'Gerente',
+            default => $firstCol,
+        };
 
         return RoleEnum::tryFrom($role);
     }
@@ -46,28 +48,28 @@ class ProjectDataMapUsers
     protected function mapUser(Collection $row, ?RoleEnum $roleEnum): ?Collection
     {
         return match ($roleEnum) {
-            RoleEnum::DIRETOR_GERAL => $this->mapDiretorGeral($row),
-            RoleEnum::DIRETOR_REGIONAL => $this->mapDiretorRegional($row),
-            RoleEnum::GERENTE => $this->mapGerente($row),
-            RoleEnum::VENDEDOR => $this->mapVenderdor($row),
+            RoleEnum::GENERAL_DIRECTOR => $this->mapGeneralDirector($row),
+            RoleEnum::REGIONAL_DIRECTOR => $this->mapRegionalDirector($row),
+            RoleEnum::MANAGER => $this->mapManager($row),
+            RoleEnum::SELLER => $this->mapSeller($row),
             default => null,
         };
     }
 
-    protected function mapDiretorGeral(Collection $row): Collection
+    protected function mapGeneralDirector(Collection $row): Collection
     {
         return collect([
-            'roleEnum' => RoleEnum::DIRETOR_REGIONAL,
+            'roleEnum' => RoleEnum::GENERAL_DIRECTOR,
             'name' => $row[0],
             'email' => $row[1],
             'password' => $row[1],
         ]);
     }
 
-    protected function mapDiretorRegional(Collection $row): Collection
+    protected function mapRegionalDirector(Collection $row): Collection
     {
         return collect([
-            'roleEnum' => RoleEnum::DIRETOR_REGIONAL,
+            'roleEnum' => RoleEnum::REGIONAL_DIRECTOR,
             'region' => $row[0],
             'name' => $row[1],
             'email' => $row[2],
@@ -75,10 +77,10 @@ class ProjectDataMapUsers
         ]);
     }
 
-    protected function mapGerente(Collection $row): Collection
+    protected function mapManager(Collection $row): Collection
     {
         return collect([
-            'roleEnum' => RoleEnum::GERENTE,
+            'roleEnum' => RoleEnum::MANAGER,
             'branchOffice' => $row[0],
             'coordinates' => [
                 'latitude' => trim(Str::before($row[1], ',')),
@@ -91,10 +93,10 @@ class ProjectDataMapUsers
         ]);
     }
 
-    protected function mapVenderdor(Collection $row): Collection
+    protected function mapSeller(Collection $row): Collection
     {
         return collect([
-            'roleEnum' => RoleEnum::VENDEDOR,
+            'roleEnum' => RoleEnum::SELLER,
             'name' => $row[0],
             'branchOffice' => $row[1],
             'email' => $row[2],
