@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\SalesController;
 use App\Http\Controllers\Api\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +26,6 @@ Route::prefix('auth')
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('user', UserController::class)->name('user');
+
+    Route::apiResource('sales', SalesController::class)->except(['destroy']);
 });

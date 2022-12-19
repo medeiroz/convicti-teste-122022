@@ -26,8 +26,9 @@ class BaseRepository
     {
         return $this->getModel()->find($id);
     }
-    public function findByName(string $name): ?Model
+
+    public function update(int $id, array $data): Model
     {
-        return $this->getModel()->whereName($name)->first();
+        return $this->find($id)->update($data);
     }
 }

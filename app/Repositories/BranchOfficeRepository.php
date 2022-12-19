@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\BranchOffice;
+use Illuminate\Database\Eloquent\Model;
 
 class BranchOfficeRepository extends BaseRepository
 {
@@ -17,5 +18,10 @@ class BranchOfficeRepository extends BaseRepository
     {
         $branchOffice = $this->find($branchOfficeId);
         $branchOffice->sellers()->attach($userId);
+    }
+
+    public function findByName(string $name): ?Model
+    {
+        return $this->getModel()->whereName($name)->first();
     }
 }
