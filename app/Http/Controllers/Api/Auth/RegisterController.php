@@ -15,10 +15,10 @@ use Knuckles\Scribe\Attributes\Unauthenticated;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
+#[Group('Register / Login')]
 class RegisterController extends Controller
 {
     #[Unauthenticated]
-    #[Group('Register / Login')]
     #[Endpoint("Register", "User Register")]
     public function __invoke(RegisterRequest $request): JsonResponse
     {
