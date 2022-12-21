@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\UnauthorizedException;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
+use Symfony\Component\HttpFoundation\Response;
 
 #[Group('Sales')]
 class SalesController extends Controller
@@ -35,7 +36,7 @@ class SalesController extends Controller
     public function store(SaleRequest $request): JsonResponse
     {
         if ($request->user()->role !== RoleEnum::SELLER->value) {
-            throw new UnauthorizedException('You are not a seller');
+            abort(Response::HTTP_UNAUTHORIZED, 'You are not a seller');
         }
 
         $sale = $this->saleRepository->create($request->validated())
@@ -51,7 +52,7 @@ class SalesController extends Controller
             ->load(['seller', 'roamingBranchOffice']);
 
         if (!$this->salesService->checkUserCanShow($request->user(), $sale)) {
-            throw new UnauthorizedException('You don\'t have permission to view this sale');
+            abort(Response::HTTP_UNAUTHORIZED,'You don\'t have permission to view this sale');
         }
 
         return response()->json($sale);
@@ -64,7 +65,7 @@ class SalesController extends Controller
             ->load(['seller', 'roamingBranchOffice']);
 
         if ($sale->seller->id !== $request->user()->id) {
-            throw new UnauthorizedException('This sale does not belong to you');
+            abort(Response::HTTP_UNAUTHORIZED,'This sale does not belong to you');
         }
 
         return response()->json($sale);

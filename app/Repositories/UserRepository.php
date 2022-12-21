@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class UserRepository extends BaseRepository
 {
     public function __construct(
-        User                                $model,
-        protected readonly RegionRepository $roleRepository,
+        User $model,
     )
     {
         parent::__construct($model);

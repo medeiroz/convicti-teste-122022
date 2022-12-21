@@ -39,7 +39,7 @@ class User extends Authenticatable
     public function getBranchOffices(): Collection
     {
         return match (RoleEnum::from($this->role)) {
-            RoleEnum::SELLER => $this->sellerBranchOffices->toBase,
+            RoleEnum::SELLER => $this->sellerBranchOffices,
             RoleEnum::REGIONAL_DIRECTOR => $this->regionalDirectorBranchOffices,
             RoleEnum::MANAGER => collect([$this->managerBranchOffice]),
         };
