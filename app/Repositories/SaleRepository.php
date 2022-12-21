@@ -3,19 +3,21 @@
 namespace App\Repositories;
 
 use App\Http\Datatable\SaleDatatable\SaleGeneralDirectorDatatable;
-use App\Http\Datatable\SaleDatatable\SaleManagerDatatable;
-use App\Http\Datatable\SaleDatatable\SaleRegionalDirectorDatatable;
+use App\Http\Datatable\SaleDatatable\SaleDefaultDatatable;
 use App\Http\Datatable\SaleDatatable\SaleSellerDatatable;
-use App\Models\BranchOffice;
 use App\Models\Sale;
 use App\Models\User;
 use App\Modules\Datatable\Datatable;
 use App\Modules\Import\ImportProjectData\Enum\RoleEnum;
 use Illuminate\Database\Eloquent\Model;
+use MatanYadaev\EloquentSpatial\Objects\Point;
 
 class SaleRepository extends BaseRepository
 {
-    public function __construct(Sale $model)
+    public function __construct(
+        Sale $model,
+        protected readonly BranchOfficeRepository $branchOfficeRepository,
+    )
     {
         parent::__construct($model);
     }
@@ -24,25 +26,22 @@ class SaleRepository extends BaseRepository
     {
         return match (RoleEnum::from($user->role)) {
             RoleEnum::GENERAL_DIRECTOR => app(SaleGeneralDirectorDatatable::class),
-            RoleEnum::REGIONAL_DIRECTOR => app(SaleRegionalDirectorDatatable::class, ['user' => $user]),
-            RoleEnum::MANAGER => app(SaleManagerDatatable::class, ['user' => $user]),
             RoleEnum::SELLER => app(SaleSellerDatatable::class, ['user' => $user]),
+            default => app(SaleDefaultDatatable::class, ['user' => $user]),
         };
     }
 
     public function create(array $data): Model
     {
-        $data['seller_id'] = auth()->user()->id;
-        $data['roaming_branch_office_id'] = $this->getRoamingBranchOfficeByLocation($data['location']);
+        $user = auth()->user();
+        $data['seller_id'] = $user->id;
+        $data['location'] = new Point($data['location']['latitude'], $data['location']['longitude']);
+        $data['branch_office_id'] = $user->sellerBranchOffices()->first()->id;
+        $data['roaming_branch_office_id'] = $this
+            ->branchOfficeRepository
+            ->getRoamingBranchOfficeByLocation($user, $data['location'])
+            ?->id;
 
         return parent::create($data);
-    }
-
-
-    public function getRoamingBranchOfficeByLocation(array $location):?BranchOffice
-    {
-        $latitude = $location['latitude'];
-        $longitude = $location['longitude'];
-        return null;
     }
 }

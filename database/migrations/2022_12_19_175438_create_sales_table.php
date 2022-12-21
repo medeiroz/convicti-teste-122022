@@ -11,7 +11,9 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('seller_id');
+            $table->unsignedBigInteger('branch_office_id');
             $table->unsignedBigInteger('roaming_branch_office_id')->nullable();
+            $table->point('location');
             $table->string('description');
             $table->float('price');
             $table->datetime('sold_at');
@@ -19,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('seller_id')->references('id')->on('users');
             $table->foreign('roaming_branch_office_id')->references('id')->on('branch_offices');
+            $table->foreign('branch_office_id')->references('id')->on('branch_offices');
         });
     }
 

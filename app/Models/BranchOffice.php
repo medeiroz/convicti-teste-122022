@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use MatanYadaev\EloquentSpatial\Objects\Point;
+use MatanYadaev\EloquentSpatial\SpatialBuilder;
 
 class BranchOffice extends Model
 {
@@ -22,6 +23,11 @@ class BranchOffice extends Model
     protected $casts = [
        'location' => Point::class,
     ];
+
+    public function newEloquentBuilder($query): SpatialBuilder
+    {
+        return new SpatialBuilder($query);
+    }
 
     public function sellers(): BelongsToMany
     {

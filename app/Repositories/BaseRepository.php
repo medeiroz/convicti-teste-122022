@@ -27,8 +27,13 @@ class BaseRepository
         return $this->getModel()->find($id);
     }
 
-    public function update(int $id, array $data): Model
+    public function findOrFail(int $id): Model
     {
-        return $this->find($id)->update($data);
+        return $this->getModel()->findOrFail($id);
+    }
+
+    public function update(int $id, array $data): bool
+    {
+        return $this->findOrFail($id)->update($data);
     }
 }

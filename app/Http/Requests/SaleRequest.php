@@ -21,6 +21,14 @@ class SaleRequest extends FormRequest
                 'gt:0'
             ],
             'sold_at' => ['required', 'date_format:Y-m-d H:i:s'],
+            'location.latitude' => [
+                'required',
+                'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/',
+            ],
+            'location.longitude' => [
+                'required',
+                'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/',
+            ],
         ];
     }
 }
