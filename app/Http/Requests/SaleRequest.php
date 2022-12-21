@@ -3,7 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Knuckles\Scribe\Attributes\BodyParam;
 
+#[BodyParam('location.latitude', 'Latitude Coordinate', required: true, example: -30.1141)]
+#[BodyParam('location.longitude', 'Longitude Coordinate', required: true, example: -51.3281)]
+#[BodyParam('price', 'Price', required: true, example: 10.50)]
 class SaleRequest extends FormRequest
 {
     public function authorize()
