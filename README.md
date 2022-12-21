@@ -123,9 +123,19 @@ sail up -d
 sail artisan key:generate
 ```
 
-### Run migrations and seed
+### Run migrations
 ```bash
-sail artisan migrate --seed
+sail artisan migrate
+```
+
+### Import Project Data
+```bash
+sail artisan import:project-data
+```
+
+### Run Seed
+```bash
+sail artisan db:seed
 ```
 
 
