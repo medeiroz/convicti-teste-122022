@@ -33,7 +33,7 @@ class ImportProjectData
 
     protected function getUsers(): Collection
     {
-        $data = $this->excel->toCollection(new stdClass, 'project-data/dados-do-projeto.xlsx');
+        $data = $this->excel->toCollection(new stdClass, 'dados-do-projeto.xlsx');
         $sheet = $data->first();
         return $this->mapUser->map($sheet);
     }

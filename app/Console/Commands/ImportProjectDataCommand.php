@@ -18,6 +18,8 @@ class ImportProjectDataCommand extends Command
         $import = app(ImportProjectData::class);
 
         $import->import();
+
+        $this->info('Project Data Imported Successfully!');
         return Command::SUCCESS;
     }
 }
