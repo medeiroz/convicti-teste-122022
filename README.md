@@ -80,7 +80,7 @@ mkdir ~/code && cd ~/code
 
 ### Clone Project
 ```bash
-git clone git@github.com:medeiroz/convicti-test-122022.git
+git clone git@github.com:medeiroz/convicti-teste-122022.git
 ```
 
 ```bash
