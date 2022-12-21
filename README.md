@@ -84,7 +84,7 @@ git clone git@github.com:medeiroz/convicti-teste-122022.git
 ```
 
 ```bash
-cd convicti-test-122022
+cd convicti-teste-122022
 ```
 
 Configure git user
